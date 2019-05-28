@@ -56,7 +56,7 @@ public class Interceptor implements HandlerInterceptor {
             session.setAttribute("referTo",referTo);
             StringBuffer stringBuffer=request.getRequestURL();
             stringBuffer.delete(stringBuffer.length()-referTo.length(),stringBuffer.length())
-                    .append("/toLogin");
+                    .append("/login.html");
             response.sendRedirect(stringBuffer.toString());
             return false;
         }else{

@@ -31,4 +31,6 @@ public class Result implements Serializable {
         return new Result(1,null,data);
     }
 
+    public static Result commonSuccessResult(String message,Object data){return new Result(1,message,data);}
+
 }

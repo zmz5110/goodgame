@@ -14,7 +14,7 @@ public class JwtUtil {
     private static final String PAYLOAD="payload";
 
     //加密
-    public static <T> String signJwt(T object,long time){
+    public static <T> String signJwt(T object,long time) throws Exception {
         try{
             JWTSigner signer=new JWTSigner(KEY);
             Map<String,Object> claims=new HashMap<>();
@@ -24,12 +24,12 @@ public class JwtUtil {
             claims.put(EXP,System.currentTimeMillis()+time);
             return signer.sign(claims);
         } catch (JsonProcessingException e) {
-            return "sign JWT failed";
+            throw new Exception("token加密失败");
         }
     }
 
     //解密
-    public static <T> T unsignJwt(String jwt,Class<T> classT){
+    public static <T> T unsignJwt(String jwt,Class<T> classT) throws Exception {
         JWTVerifier verifier=new JWTVerifier(KEY);
         ObjectMapper objectMapper=new ObjectMapper();
         try{
@@ -42,7 +42,9 @@ public class JwtUtil {
                     return objectMapper.readValue(objectString,classT);
                 }
             }
-        } catch (Exception e) {}
-        return null;
+            return null;
+        } catch (Exception e) {
+            throw new Exception("token解密失败");
+        }
     }
 }
